@@ -5,8 +5,10 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
-      <a class="nav-link" routerLink="/user-search">Én is</a>
-      <a class="nav-link" routerLink="/repo-search">Én nem</a>
+      <a class="nav-link" routerLink="/test-1">Én is</a>
+      <a class="nav-link" routerLink="/test-2">Én nem</a>
+      <button class="btn btn-success" *ngIf="!isAuthenticated" (click)="login()">Login</button>
+      <button class="btn btn-danger" *ngIf="isAuthenticated" (click)="logout()">Logout</button>
     </div>
   </div>
 </nav>
