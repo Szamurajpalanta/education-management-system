@@ -1,6 +1,5 @@
 import {Entity, PrimaryGeneratedColumn, Column, ManyToMany, ManyToOne, JoinTable, OneToMany} from "typeorm";
 import { Enrollment } from "./Enrollment";
-import { Student } from "./Student";
 import { Subject } from "./Subject";
 import { Teacher } from "./Teacher";
 

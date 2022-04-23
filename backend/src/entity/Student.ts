@@ -1,5 +1,4 @@
 import {Entity, PrimaryColumn, Column, ManyToMany, OneToMany} from "typeorm";
-import { Course } from "./Course";
 import { Enrollment } from "./Enrollment";
 
 @Entity()
