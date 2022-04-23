@@ -1,4 +1,5 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToMany, ManyToOne} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToMany, ManyToOne, JoinTable, OneToMany} from "typeorm";
+import { Enrollment } from "./Enrollment";
 import { Student } from "./Student";
 import { Subject } from "./Subject";
 import { Teacher } from "./Teacher";
@@ -6,6 +7,7 @@ import { Teacher } from "./Teacher";
 @Entity()
 export class Course {
 
+    @OneToMany(type => Enrollment, enrollment => enrollment.course)
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -17,7 +19,4 @@ export class Course {
 
     @ManyToOne(type => Subject, subject => subject.courses)
     subject: Subject;
-
-    @ManyToMany(type => Student, student => student.courses)
-    students: Student[];
 }

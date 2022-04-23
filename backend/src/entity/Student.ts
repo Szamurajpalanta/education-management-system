@@ -1,9 +1,11 @@
-import {Entity, PrimaryColumn, Column, ManyToMany} from "typeorm";
+import {Entity, PrimaryColumn, Column, ManyToMany, OneToMany} from "typeorm";
 import { Course } from "./Course";
+import { Enrollment } from "./Enrollment";
 
 @Entity()
 export class Student {
 
+    @OneToMany(type => Enrollment, enrollment => enrollment.student)
     @PrimaryColumn()
     id: string;
 
@@ -12,7 +14,4 @@ export class Student {
 
     @Column()
     circle: string;
-
-    @ManyToMany(type => Course, course => course.students)
-    courses: Course[];
 }
