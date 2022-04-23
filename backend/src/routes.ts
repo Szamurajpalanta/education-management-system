@@ -1,5 +1,6 @@
 import * as express from 'express';
 import { CourseController } from './controller/course.controller';
+import { EnrollmentController } from './controller/enrollment.controller';
 import { StudentController } from './controller/student.controller';
 import { SubjectController } from './controller/subject.controller';
 import { TeacherController } from './controller/teacher.controller';
@@ -34,6 +35,13 @@ export function getRoutes() {
     router.post('/api/teachers', teacherCtrl.create);
     router.put('/api/teachers', teacherCtrl.update);
     router.delete('/api/teachers', teacherCtrl.delete);
+
+    const enrollmentCtrl = new EnrollmentController();
+    router.get('/api/enrollments', enrollmentCtrl.getAll);
+    router.get('/api/enrollments/:id', enrollmentCtrl.getOne);
+    router.post('/api/enrollments', enrollmentCtrl.create);
+    router.put('/api/enrollments', enrollmentCtrl.update);
+    router.delete('/api/enrollments', enrollmentCtrl.delete);
 
     return router;
 }
