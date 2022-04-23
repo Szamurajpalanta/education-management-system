@@ -6,11 +6,15 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
+import { StudentListComponent } from './student-list/student-list.component';
+import { TeacherListComponent } from './teacher-list/teacher-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavComponent
+    NavComponent,
+    StudentListComponent,
+    TeacherListComponent
   ],
   imports: [
     BrowserModule,
