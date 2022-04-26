@@ -1,1 +1,7 @@
 <p>student-list works!</p>
+<div class="col-md-12">
+    <div class="row" *ngFor="let student of students">
+        <p>{{student.name}}</p>
+        <p>{{student.circle}}</p>
+    </div>
+</div>

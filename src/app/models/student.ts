@@ -1,5 +1,5 @@
 export class Student {
-    id: string;
-    name: string;
-    circle: string;
+    id!: string;
+    name!: string;
+    circle!: string;
 }
