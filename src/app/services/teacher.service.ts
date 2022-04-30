@@ -11,6 +11,6 @@ export class TeacherService {
   constructor(private http: HttpClient) { }
 
   getTeacher() {
-    return lastValueFrom(this.http.get<Teacher[]>('/api/teachers'));
+    return lastValueFrom(this.http.get<Teacher[]>('http://localhost:3000/api/teachers'));
   }
 }

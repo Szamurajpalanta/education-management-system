@@ -11,6 +11,6 @@ export class EnrollmentService {
   constructor(private http: HttpClient) { }
 
   getEnrollments() {
-    return lastValueFrom(this.http.get<Enrollment[]>('/api/enrollments'));
+    return lastValueFrom(this.http.get<Enrollment[]>('http://localhost:3000/api/enrollments'));
   }
 }

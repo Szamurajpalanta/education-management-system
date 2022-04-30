@@ -11,15 +11,15 @@ export class StudentService {
   constructor(private http: HttpClient) { }
 
   getStudents() {
-    return lastValueFrom(this.http.get<Student[]>('/api/students'));
+    return lastValueFrom(this.http.get<Student[]>('http://localhost:3000/api/students'));
   }
 
   getStudent(id: number) {
-    return lastValueFrom(this.http.get<Student>(`/api/students/${id}`));
+    return lastValueFrom(this.http.get<Student>(`http://localhost:3000/api/students/${id}`));
   }
 
   searchStudents(query: string) {
-    return lastValueFrom(this.http.get<Student[]>('/api/students/search', {
+    return lastValueFrom(this.http.get<Student[]>('http://localhost:3000/api/students/search', {
       params: {
         search: query
       }
@@ -27,10 +27,10 @@ export class StudentService {
   }
 
   createProduct(student: Student) {
-    return lastValueFrom(this.http.post<Student>('/api/students', student));
+    return lastValueFrom(this.http.post<Student>('http://localhost:3000/api/students', student));
   }
 
   updateProduct(student: Student) {
-    return lastValueFrom(this.http.put<Student>('/api/students', student));
+    return lastValueFrom(this.http.put<Student>('http://localhost:3000/api/students', student));
   }
 }
