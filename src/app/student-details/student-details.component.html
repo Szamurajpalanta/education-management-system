@@ -1,0 +1,21 @@
+<p>{{student.name}} | {{student.id}}</p>
+<p>{{student.circle}}</p>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>        
+      <th scope="col">Tantárgy</th>
+      <th scope="col">Időpont</th>
+      <th scope="col">Értékelés</th>
+    </tr>
+  </thead>
+  <tbody *ngFor="let enrollment of enrollments">
+    <tr>
+      <th scope="row">{{enrollment.id}}</th>
+      <td>{{enrollment.studentId}}</td>
+      <td>{{enrollment.courseId}}</td>
+      <td>{{enrollment.mark}}</td>
+    </tr>
+  </tbody>
+</table>

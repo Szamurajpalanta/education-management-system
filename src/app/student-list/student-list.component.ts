@@ -22,6 +22,7 @@ export class StudentListComponent implements OnInit {
       console.error(err);
     }
   }
+  
   async search() {
     try {
       this.students = await this.studentService.searchStudents(this.query);
