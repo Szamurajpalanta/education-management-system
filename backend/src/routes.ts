@@ -18,7 +18,7 @@ export function getRoutes() {
     const studentCtrl = new StudentController();
     router.get('/api/students', studentCtrl.getAll);
     router.get('/api/students/:id', studentCtrl.getOne);
-    router.get('/api/students/search', studentCtrl.search);
+    router.get('/api/search/students', studentCtrl.search);
     router.post('/api/students', studentCtrl.create);
     router.put('/api/students', studentCtrl.update);
     router.delete('/api/students', studentCtrl.delete);

@@ -11,7 +11,7 @@ export class StudentController extends Controller {
 
         try {
             const students = await this.repository.createQueryBuilder('student')
-                .where("name LIKE CONCAT('%', :param, '%')", { param: query })
+                .where("student.name LIKE CONCAT('%', :param, '%')", { param: query })
                 .getMany();
 
             res.json(students);

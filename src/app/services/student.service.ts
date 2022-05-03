@@ -19,7 +19,7 @@ export class StudentService {
   }
 
   searchStudents(query: string) {
-    return lastValueFrom(this.http.get<Student[]>('http://localhost:3000/api/students/search', {
+    return lastValueFrom(this.http.get<Student[]>('http://localhost:3000/api/search/students', {
       params: {
         search: query
       }
