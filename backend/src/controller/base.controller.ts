@@ -33,7 +33,11 @@ export class Controller {
         const entityId = req.params.id;
 
         try {
-            const entity = await this.repository.findOne(entityId);
+            const entity = await this.repository.findOne(
+                {
+                    where: {id: entityId}
+                }
+            );
 
             if (!entity) {
                 return res.status(404).json({ message: 'Entity not found.' });
