@@ -1,6 +1,7 @@
 import { Student } from "../entity/Student";
 import { getRepository } from "typeorm";
 import { Controller } from "./base.controller";
+import { request } from "http";
 
 export class StudentController extends Controller {
     override repository = getRepository(Student);
@@ -10,7 +11,7 @@ export class StudentController extends Controller {
 
         try {
             const students = await this.repository.createQueryBuilder('student')
-                .where("title LIKE CONCAT('%', :param, '%')", { param: query })
+                .where("name LIKE CONCAT('%', :param, '%')", { param: query })
                 .getMany();
 
             res.json(students);

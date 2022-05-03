@@ -40,6 +40,7 @@ export function getRoutes() {
     const enrollmentCtrl = new EnrollmentController();
     router.get('/api/enrollments', enrollmentCtrl.getAll);
     router.get('/api/enrollments/:id', enrollmentCtrl.getOne);
+    router.get('/api/enrollments/search', enrollmentCtrl.search);
     router.post('/api/enrollments', enrollmentCtrl.create);
     router.put('/api/enrollments', enrollmentCtrl.update);
     router.delete('/api/enrollments', enrollmentCtrl.delete);
