@@ -1,4 +1,4 @@
-import { getRepository } from "typeorm";
+import { getRepository} from "typeorm";
 import { Controller } from "./base.controller";
 import { Enrollment } from "../entity/Enrollment";
 
@@ -10,7 +10,7 @@ export class EnrollmentController extends Controller {
 
         try {
             const enrollments = await this.repository.createQueryBuilder('enrollment')
-                .where("studentId LIKE CONCAT('%', :param, '%')", { param: query })
+                .where("enrollment.studentId = :param", { param: query })
                 .getMany();
 
             res.json(enrollments);

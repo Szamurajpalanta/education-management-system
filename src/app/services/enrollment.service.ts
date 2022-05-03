@@ -15,7 +15,7 @@ export class EnrollmentService {
   }
 
   searchEnrollments(query: string) {
-    return lastValueFrom(this.http.get<Enrollment[]>('http://localhost:3000/api/enrollments/search', {
+    return lastValueFrom(this.http.get<Enrollment[]>('http://localhost:3000/api/search/enrollments', {
       params: {
         search: query
       }
