@@ -6,7 +6,6 @@ import { Teacher } from "./Teacher";
 @Entity()
 export class Course {
 
-    @OneToMany(type => Enrollment, enrollment => enrollment.course)
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -18,4 +17,7 @@ export class Course {
 
     @ManyToOne(type => Subject, subject => subject.courses, { eager: true })
     subject: Subject;
+
+    @OneToMany(type => Enrollment, enrollment => enrollment.course)
+    enrollments: Enrollment[];
 }

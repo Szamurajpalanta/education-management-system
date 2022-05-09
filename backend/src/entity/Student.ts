@@ -4,7 +4,6 @@ import { Enrollment } from "./Enrollment";
 @Entity()
 export class Student {
 
-    @OneToMany(type => Enrollment, enrollment => enrollment.student)
     @PrimaryColumn()
     id: string;
 
@@ -13,4 +12,7 @@ export class Student {
 
     @Column()
     circle: string;
+
+    @OneToMany(type => Enrollment, enrollment => enrollment.student)
+    enrollments: Enrollment[];
 }

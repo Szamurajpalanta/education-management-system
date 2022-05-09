@@ -8,10 +8,10 @@ export class Enrollment {
     @PrimaryColumn()
     id: number;
 
-    @ManyToOne(type => Course, course => course.id, { eager: true })
+    @ManyToOne(type => Course, course => course.enrollments, { eager: true })
     course: Course;
 
-    @ManyToOne(type => Student, student => student.id, { eager: true })
+    @ManyToOne(type => Student, student => student.enrollments, { eager: true })
     student: Student;
 
     @Column({ nullable: true })
