@@ -14,6 +14,6 @@ export class Enrollment {
     @ManyToOne(type => Student, student => student.id, { eager: true })
     student: Student;
 
-    @Column()
+    @Column({ nullable: true })
     mark: number;
 }
