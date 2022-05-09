@@ -1,5 +1,18 @@
+<div class="alert" [ngClass]="{'alert-success' : success, 'alert-danger' : !success}"  role="alert" *ngIf="showStatusMessage">
+    {{ statusMessage }}
+</div>
+
+<form [formGroup]="studentForm">
+    <div class="col-md">
+        <input type="text" class="form-control" id="id" name="id" formControlName="id" placeholder="Egyedi azonosító">
+        <input type="text" class="form-control" id="name" name="name" formControlName="name" placeholder="Hallgató neve">
+        <input type="text" class="form-control" id="circle" name="circle" formControlName="circle" placeholder="Tankör">
+    </div>
+    <button type="button" class="btn btn-primary" (click)="addNewStudent()">Add</button>
+</form>
+
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-10">
         <input type="text" class="form-control" [(ngModel)]="query" placeholder="Keresés hallgató neve szerint">
     </div>
     <div class="col-md-2">

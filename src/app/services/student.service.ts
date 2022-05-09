@@ -26,11 +26,11 @@ export class StudentService {
     }));
   }
 
-  createProduct(student: Student) {
+  createStudent(student: Student) {
     return lastValueFrom(this.http.post<Student>('http://localhost:3000/api/students', student));
   }
 
-  updateProduct(student: Student) {
+  updateStudent(student: Student) {
     return lastValueFrom(this.http.put<Student>('http://localhost:3000/api/students', student));
   }
 }
