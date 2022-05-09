@@ -3,8 +3,7 @@
 
 <table class="table">
   <thead>
-    <tr>
-      <th scope="col">#</th>        
+    <tr>      
       <th scope="col">Tantárgy</th>
       <th scope="col">Időpont</th>
       <th scope="col">Értékelés</th>
@@ -12,9 +11,8 @@
   </thead>
   <tbody *ngFor="let enrollment of enrollments">
     <tr>
-      <th scope="row">{{enrollment.id}}</th>
-      <td>{{enrollment.studentId}}</td>
-      <td>{{enrollment.courseId}}</td>
+      <th scope="row">{{enrollment.course}}</th>
+      <td>{{enrollment.student}}</td>
       <td>{{enrollment.mark}}</td>
     </tr>
   </tbody>
