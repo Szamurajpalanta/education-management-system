@@ -3,7 +3,7 @@ import { Student } from "./student";
 
 export class Enrollment {
     id!: number;
-    courseId!: Course;
-    studentId!: Student;
+    course!: Course;
+    student!: Student;
     mark!: number;
 }
