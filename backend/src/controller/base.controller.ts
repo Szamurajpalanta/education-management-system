@@ -53,9 +53,13 @@ export class Controller {
         const entity = this.repository.create(req.body as {});
 
         try {
-            const existingEntity = await this.repository.findOne(entity.id);
+            const existingEntity = await this.repository.findOne(
+                {
+                    where: {id: entity.id}
+                }
+            );
             if (!existingEntity) {
-                return res.status(404).json({ message: 'Not existing entity.' });
+                return res.status(404).json({ message: 'Specified entity does not exist.' });
             }
 
             const modifiedEntity = await this.repository.save(entity);
@@ -66,12 +70,12 @@ export class Controller {
     }
 
     delete = async (req, res) => {
-        const productId = req.params.id;
+        const id = req.params.id;
 
         try {
-            const entity = await this.repository.findOne(productId);
+            const entity = await this.repository.findOne(id);
             if (!entity) {
-                return res.status(404).json({ message: 'Not existing entity.' });
+                return res.status(404).json({ message: 'Specified entity does not exist.' });
             }
 
             await this.repository.delete(entity);
