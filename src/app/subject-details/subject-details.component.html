@@ -1,7 +1,45 @@
 <div class="float-container">
-    <div class="row">
-      <div class="col-md">
-        <p class="font-weight-bold">{{subject.name}}</p>
-      </div>
+  <div class="row">
+    <div class="col-md">
+      <p class="font-weight-bold">{{subject.name}}</p>
     </div>
   </div>
+
+  <table class="table">
+    <thead>
+      <tr>      
+        <th class="col-md-7" scope="col">Oktató</th>
+        <th class="col-md-1" scope="col">Időpont</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let course of subjectCourses">
+      <tr>
+        <td>{{course.teacher.name}}</td>
+        <td>{{course.time}}</td>
+        <!--
+        <td *ngIf="!isEditingEnrollment">{{enrollment.mark}}</td>
+        <td *ngIf="isEditingEnrollment">
+        <input type="number" min="1" max="5" value="{{enrollment.mark}}" class="form-control" [(ngModel)]="tempMark" placeholder="Keresés hallgató neve szerint">
+        </td>
+        <td>
+          <button type="button" class="btn btn-primary m-1" *ngIf="!isEditingEnrollment && !isDeletingEnrollment" (click)="toggleEditEnrollmentMode()">Értékelés módosítása</button>
+          <button type="button" class="btn btn-danger m-1" *ngIf="!isEditingEnrollment && !isDeletingEnrollment" (click)="toggleDeleteEnrollmentMode()">Törlés</button>
+          <button type="button" class="btn btn-success m-1" *ngIf="isEditingEnrollment" (click)="updateEnrollment(enrollment)">Mentés</button>
+          <button type="button" class="btn btn-danger m-1" *ngIf="isEditingEnrollment" (click)="toggleEditEnrollmentMode()">Mégse</button>
+          <div class="row" *ngIf="isDeletingEnrollment">
+            <div class="col-md-2">
+              Biztos?
+            </div>
+            <div class="col-md">
+              <button type="button" class="btn btn-danger m-1" (click)="deleteEnrollment(enrollment)">Törlés</button>
+              <button type="button" class="btn btn-primary m-1" (click)="toggleDeleteEnrollmentMode()">Mégse</button>
+            </div>
+          </div>
+        </td>
+        -->
+      </tr>
+    </tbody>
+  </table>
+</div>
+

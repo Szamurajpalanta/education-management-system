@@ -12,6 +12,7 @@ export class SubjectDetailsComponent implements OnInit {
 
   @Input() subject!: Subject;
   courses: Course[] = [];
+  subjectCourses: Course[] = [];
 
   constructor(private courseService: CourseService) { }
 
@@ -22,6 +23,16 @@ export class SubjectDetailsComponent implements OnInit {
     } catch (err) {
       console.error(err);
     }
+
+    this.getSubjectCourses();
+  }
+
+  getSubjectCourses() {
+    this.courses.forEach(course => {
+      if (course.subject.name === this.subject.name) {
+        this.subjectCourses.push(course);
+      }
+    });
   }
 
 }
