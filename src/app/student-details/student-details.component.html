@@ -1,5 +1,39 @@
-<p>{{student.name}} | {{student.id}}</p>
-<p>{{student.circle}}</p>
+<div class="alert p-1 m-1" [ngClass]="{'alert-success' : success, 'alert-danger' : !success}"  role="alert" *ngIf="showStatusMessage">
+  {{ statusMessage }}
+</div>
+
+<div class="float-container" *ngIf="!isEditing">
+  <div class="row">
+    <div class="col-md-1">
+      {{student.id}}
+    </div>
+    <div class="col-md">
+      {{student.name}}
+    </div>
+    <div class="col-md-2">
+      <button type="button" class="btn btn-primary m-1" (click)="toggleEditMode()">Hallgató szerkesztése</button>
+    </div>    
+  </div>
+
+  <div class="row">
+    <div class="col-md">
+      <p>{{student.circle}}</p>
+    </div>
+    <div class="col-md-2">
+      <button type="button" class="btn btn-danger m-1" (click)="deleteStudent()">Hallgató törlése</button>
+    </div>
+  </div>
+</div>
+
+<form [formGroup]="editStudentForm" *ngIf="isEditing">  
+  <div class="col-md">
+      <input type="text" class="form-control m-1" id="id" name="id" formControlName="id" placeholder="Egyedi azonosító" readonly>
+      <input type="text" class="form-control m-1" id="name" name="name" formControlName="name" placeholder="Hallgató neve">
+      <input type="text" class="form-control m-1" id="circle" name="circle" formControlName="circle" placeholder="Tankör">
+  </div>
+  <button type="button" class="btn btn-success m-1" (click)="updateStudent()">Szerkesztés</button>
+  <button type="button" class="btn btn-danger m-1" (click)="updateStudent()">Mégse</button>
+</form>
 
 <table class="table">
   <thead>

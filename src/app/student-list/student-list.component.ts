@@ -64,16 +64,9 @@ export class StudentListComponent implements OnInit {
     this.showStatusMessage = true;
 
     try {
-      if (student.id) {
-        await this.studentService.updateStudent(student);
-        this.success = true;
-        this.statusMessage = 'User updated successfully.';
-      } else {
-        const insertedUser = await this.studentService.createStudent(student);
-        this.success = true;
-        this.statusMessage = 'User is inserted with id ' + insertedUser.id;
-      }
-      
+      const insertedUser = await this.studentService.createStudent(student);
+      this.success = true;
+      this.statusMessage = 'Űj hallgató jött létre a következő azonosítóval: ' + insertedUser.id;      
     } catch (err: any) {
       this.statusMessage = err.error.message;
       this.success = false;
