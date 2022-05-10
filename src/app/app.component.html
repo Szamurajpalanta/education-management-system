@@ -1,2 +1,26 @@
 <app-nav></app-nav>
-<router-outlet></router-outlet>
+
+<div class="float-container" *ngIf="!isAuthenticated">
+    <div class="alert p-1 m-1" [ngClass]="{'alert-success' : success, 'alert-danger' : !success}"  role="alert" *ngIf="showStatusMessage">
+        {{ statusMessage }}
+    </div>
+
+    <div class="row">
+        <h4 *ngIf="!isRegistering">Bejelentkezés</h4>
+        <h4 *ngIf="isRegistering">Új felhasználó létrehozása</h4>
+    </div>
+    <form [formGroup]="userForm">  
+        <div class="col-md">
+            <input type="text" class="form-control m-1" id="user" name="user" formControlName="user" placeholder="Felhasználónév">
+            <input type="password" class="form-control m-1" id="password" name="password" formControlName="password" placeholder="Jelszó">
+        </div>
+        <button type="button" class="btn btn-success m-1" (click)="tryLogin()" *ngIf="!isRegistering">Bejelentkezés</button>
+        <button type="button" class="btn btn-outline-primary m-1" (click)="toggleRegistration()" *ngIf="!isRegistering">Regisztráció</button>
+        <button type="button" class="btn btn-success m-1" (click)="createUser()" *ngIf="isRegistering">Új felhasználó létrehozása</button>
+        <button type="button" class="btn btn-outline-primary m-1" (click)="toggleRegistration()" *ngIf="isRegistering">Bejelentkezés</button>
+    </form>
+    <button type="button" class="btn btn-danger m-1" (click)="setAuthentication(true)">Bejelentkezés felhasználó nélkül</button>
+    <button type="button" class="btn btn-danger m-1" (click)="toggleRegistration()">Regisztráció/bejelentkezés váltása</button>
+</div>
+
+<router-outlet *ngIf="isAuthenticated"></router-outlet>
