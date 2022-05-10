@@ -11,6 +11,7 @@ import { TeacherListComponent } from './teacher-list/teacher-list.component';
 import { StudentDetailsComponent } from './student-details/student-details.component';
 import { TeacherDetailsComponent } from './teacher-details/teacher-details.component';
 import { StatisticsListComponent } from './statistics-list/statistics-list.component';
+import { StatisticsDetailsComponent } from './statistics-details/statistics-details.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { StatisticsListComponent } from './statistics-list/statistics-list.compo
     TeacherListComponent,
     StudentDetailsComponent,
     TeacherDetailsComponent,
-    StatisticsListComponent
+    StatisticsListComponent,
+    StatisticsDetailsComponent
   ],
   imports: [
     BrowserModule,
