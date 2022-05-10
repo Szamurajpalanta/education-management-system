@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Enrollment } from '../models/enrollment';
+import { EnrollmentService } from '../services/enrollment.service';
 
 @Component({
   selector: 'app-statistics-list',
@@ -7,9 +9,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StatisticsListComponent implements OnInit {
 
-  constructor() { }
+  enrollments: Enrollment[] = [];
+  circles: string[] = [];
 
-  ngOnInit(): void {
+  constructor(
+    private enrollmentService: EnrollmentService
+  ) { }
+
+  async ngOnInit() {
+    try {
+      this.enrollments = await this.enrollmentService.getEnrollments();
+      this.enrollments.forEach(enrollment => {
+        if (!this.circles.includes(enrollment.student.circle)) {
+          this.circles.push(enrollment.student.circle);
+        }
+      });
+      console.log(this.circles)
+    } catch (err) {
+      console.error(err);
+    }
   }
 
 }
