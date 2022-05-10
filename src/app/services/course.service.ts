@@ -13,4 +13,12 @@ export class CourseService {
   getCourses() {
     return lastValueFrom(this.http.get<Course[]>('http://localhost:3000/api/courses'));
   }
+
+  searchCourses(query: string) {
+    return lastValueFrom(this.http.get<Course[]>('http://localhost:3000/api/search/courses', {
+      params: {
+        search: query
+      }
+    }));
+  }
 }

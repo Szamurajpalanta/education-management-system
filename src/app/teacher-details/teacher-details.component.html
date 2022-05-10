@@ -1,1 +1,57 @@
-<p>teacher-details works!</p>
+<div class="alert p-1 m-1" [ngClass]="{'alert-success' : success, 'alert-danger' : !success}"  role="alert" *ngIf="showStatusMessage">
+    {{ statusMessage }}
+  </div>
+  
+  <div class="float-container" *ngIf="!isEditing">
+    <div class="row">
+      <div class="col-md-1">
+        {{teacher.id}}
+      </div>
+      <div class="col-md">
+        {{teacher.name}}
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="btn btn-primary m-1" (click)="toggleEditMode()">Oktató szerkesztése</button>
+      </div>    
+    </div>
+  
+    <div class="row">
+      <div class="col-md">
+        <p>{{teacher.department}}</p>
+      </div>
+      <div class="col-md-1" *ngIf="isDeleting">
+        Biztos?
+      </div>
+      <div class="col-md-1" *ngIf="isDeleting">
+        <button type="button" class="btn btn-danger" (click)="deleteTeacher()">Törlés</button>
+      </div>
+      <div class="col-md-2" *ngIf="!isDeleting">
+        <button type="button" class="btn btn-danger m-1" (click)="toggleDeleteMode()">Oktató törlése</button>
+      </div>
+    </div>
+  </div>
+  
+  <form [formGroup]="editTeacherForm" *ngIf="isEditing">  
+    <div class="col-md">
+        <input type="text" class="form-control m-1" id="id" name="id" formControlName="id" placeholder="Egyedi azonosító" readonly>
+        <input type="text" class="form-control m-1" id="name" name="name" formControlName="name" placeholder="Oktató neve">
+        <input type="text" class="form-control m-1" id="department" name="department" formControlName="department" placeholder="Tanszék">
+    </div>
+    <button type="button" class="btn btn-success m-1" (click)="updateTeacher()">Szerkesztés</button>
+    <button type="button" class="btn btn-danger m-1" (click)="deleteTeacher()">Mégse</button>
+  </form>
+  
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Tantárgy</th>
+        <th scope="col">Időpont</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let course of courses">
+      <tr>
+        <th scope="row">{{course.subject}}</th>
+        <td>{{course.time}}</td>
+      </tr>
+    </tbody>
+  </table>

@@ -27,7 +27,7 @@ export class StudentDetailsComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    this.getStudent();
+    this.getEnrollments();
 
     this.editStudentForm = this.formBuilder.group({
       id: [this.student.id],
@@ -36,7 +36,7 @@ export class StudentDetailsComponent implements OnInit {
     });
   }
 
-  async getStudent() {
+  async getEnrollments() {
     try {
       this.enrollments = await this.enrollmentService.searchEnrollments(this.student.id);
     } catch (err) {
@@ -68,7 +68,7 @@ export class StudentDetailsComponent implements OnInit {
     try {
       await this.studentService.updateStudent(student);
       this.success = true;
-      this.getStudent();
+      this.getEnrollments();
       this.statusMessage = 'A hallgató módosítása sikeres volt.';
       this.toggleEditMode();
     } catch (err: any) {
@@ -86,7 +86,7 @@ export class StudentDetailsComponent implements OnInit {
       try {
         await this.studentService.deleteStudent(this.student.id);
         this.success = true;
-        this.getStudent();
+        this.getEnrollments();
         this.statusMessage = 'A hallgató törlése sikeres volt.';
       } catch (err: any) {
         this.statusMessage = err.error.message;

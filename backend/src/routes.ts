@@ -11,6 +11,7 @@ export function getRoutes() {
     const courseCtrl = new CourseController();
     router.get('/api/courses', courseCtrl.getAll);
     router.get('/api/courses/:id', courseCtrl.getOne);
+    router.get('/api/search/courses', courseCtrl.search);
     router.post('/api/courses', courseCtrl.create);
     router.put('/api/courses', courseCtrl.update);
     router.delete('/api/courses/:id', courseCtrl.delete);
@@ -33,6 +34,7 @@ export function getRoutes() {
     const teacherCtrl = new TeacherController();
     router.get('/api/teachers', teacherCtrl.getAll);
     router.get('/api/teachers/:id', teacherCtrl.getOne);
+    router.get('/api/search/teachers', teacherCtrl.search);
     router.post('/api/teachers', teacherCtrl.create);
     router.put('/api/teachers', teacherCtrl.update);
     router.delete('/api/teachers/:id', teacherCtrl.delete);
