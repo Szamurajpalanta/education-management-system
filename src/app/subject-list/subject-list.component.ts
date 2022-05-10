@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Subject } from '../models/subject';
+import { SubjectService } from '../services/subject.service';
 
 @Component({
   selector: 'app-subject-list',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SubjectListComponent implements OnInit {
 
-  constructor() { }
+  subjects: Subject[] = [];
 
-  ngOnInit(): void {
+  constructor(
+    private subjectService: SubjectService
+  ) { }
+
+  async ngOnInit() {
+    try {
+      this.subjects = await this.subjectService.getSubjects();
+      console.log(this.subjects)
+    } catch (err) {
+      console.error(err);
+    }
   }
 
 }

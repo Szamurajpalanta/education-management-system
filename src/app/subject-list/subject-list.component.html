@@ -1,1 +1,3 @@
-<p>subject-list works!</p>
+<div class="col-md-12 border-top m-1" *ngFor="let subject of subjects">
+    <app-subject-details [subject]="subject"></app-subject-details>
+</div>

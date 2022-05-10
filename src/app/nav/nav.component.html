@@ -7,6 +7,7 @@
     <div class="navbar-nav">
       <a class="nav-link" routerLink="/student-list">Hallgatók</a>
       <a class="nav-link" routerLink="/teacher-list">Oktatók</a>
+      <a class="nav-link" routerLink="/subject-list">Tantárgyak</a>
       <a class="nav-link" routerLink="/statistics-list">Statisztikák</a>
       <button class="btn btn-success" *ngIf="!isAuthenticated" (click)="login()">Bejelentkezés</button>
       <button class="btn btn-danger" *ngIf="isAuthenticated" (click)="logout()">Kijelentkezés</button>

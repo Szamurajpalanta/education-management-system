@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Course } from '../models/course';
+import { Subject } from '../models/subject';
+import { CourseService } from '../services/course.service';
 
 @Component({
   selector: 'app-subject-details',
@@ -7,9 +10,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SubjectDetailsComponent implements OnInit {
 
-  constructor() { }
+  @Input() subject!: Subject;
+  courses: Course[] = [];
 
-  ngOnInit(): void {
+  constructor(private courseService: CourseService) { }
+
+  async ngOnInit() {
+    try {
+      this.courses = await this.courseService.getCourses();
+      console.log(this.courses);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
 }
