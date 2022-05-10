@@ -21,7 +21,7 @@ export class StudentDetailsComponent implements OnInit {
   success: boolean = false;
   statusMessage = '';
   editStudentForm!: FormGroup;
-  tempMark: number = 0;
+  tempMark: number = 1;
 
   constructor(
     private studentService: StudentService,

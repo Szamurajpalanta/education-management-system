@@ -2,7 +2,7 @@
     {{ statusMessage }}
   </div>
   
-  <div class="float-container" *ngIf="!isEditing">
+  <div class="float-container" *ngIf="!isEditingTeacher">
     <div class="row">
       <div class="col-md-1">
         {{teacher.id}}
@@ -11,7 +11,7 @@
         {{teacher.name}}
       </div>
       <div class="col-md-2">
-        <button type="button" class="btn btn-primary m-1" (click)="toggleEditMode()">Oktató szerkesztése</button>
+        <button type="button" class="btn btn-primary m-1" (click)="toggleEditTeacherMode()">Oktató szerkesztése</button>
       </div>    
     </div>
   
@@ -19,39 +19,74 @@
       <div class="col-md">
         <p>{{teacher.department}}</p>
       </div>
-      <div class="col-md-1" *ngIf="isDeleting">
+      <div class="col-md-1" *ngIf="isDeletingTeacher">
         Biztos?
       </div>
-      <div class="col-md-1" *ngIf="isDeleting">
+      <div class="col-md-1" *ngIf="isDeletingTeacher">
         <button type="button" class="btn btn-danger" (click)="deleteTeacher()">Törlés</button>
       </div>
-      <div class="col-md-2" *ngIf="!isDeleting">
-        <button type="button" class="btn btn-danger m-1" (click)="toggleDeleteMode()">Oktató törlése</button>
+      <div class="col-md-2" *ngIf="!isDeletingTeacher">
+        <button type="button" class="btn btn-danger m-1" (click)="toggleDeleteTeacherMode()">Oktató törlése</button>
       </div>
     </div>
   </div>
   
-  <form [formGroup]="editTeacherForm" *ngIf="isEditing">  
+  <form [formGroup]="editTeacherForm" *ngIf="isEditingTeacher">  
     <div class="col-md">
         <input type="text" class="form-control m-1" id="id" name="id" formControlName="id" placeholder="Egyedi azonosító" readonly>
         <input type="text" class="form-control m-1" id="name" name="name" formControlName="name" placeholder="Oktató neve">
         <input type="text" class="form-control m-1" id="department" name="department" formControlName="department" placeholder="Tanszék">
     </div>
     <button type="button" class="btn btn-success m-1" (click)="updateTeacher()">Szerkesztés</button>
-    <button type="button" class="btn btn-danger m-1" (click)="toggleEditMode()">Mégse</button>
+    <button type="button" class="btn btn-danger m-1" (click)="toggleEditTeacherMode()">Mégse</button>
   </form>
   
   <table class="table">
     <thead>
       <tr>
-        <th scope="col">Tantárgy</th>
-        <th scope="col">Időpont</th>
+        <th class="col-md-8" scope="col">Tantárgy</th>
+        <th class="col-md-1" scope="col">Időpont</th>
+        <th scope="col"></th>
       </tr>
     </thead>
-    <tbody *ngFor="let course of courses">
-      <tr>
-        <th scope="row">{{course.subject}}</th>
-        <td>{{course.time}}</td>
+    <tbody>
+      <tr *ngFor="let course of teacherCourses">
+        <th scope="row">{{course.subject.name}}</th>
+        <td *ngIf="!isEditingCourse">{{course.time}}</td>
+        <td *ngIf="isEditingCourse">
+          <input type="text" value="{{course.time}}" class="form-control" [(ngModel)]="tempTime" placeholder="HH:MM">
+        </td>
+        <td>
+          <button type="button" class="btn btn-primary m-1" *ngIf="!isEditingCourse && !isDeletingCourse" (click)="toggleEditCourseMode()">Időpont módosítása</button>
+          <button type="button" class="btn btn-danger m-1" *ngIf="!isEditingCourse && !isDeletingCourse" (click)="toggleDeleteCourseMode()">Törlés</button>
+          <button type="button" class="btn btn-success m-1" *ngIf="isEditingCourse" (click)="updateCourse(course)">Mentés</button>
+          <button type="button" class="btn btn-danger m-1" *ngIf="isEditingCourse" (click)="toggleEditCourseMode()">Mégse</button>
+          <div class="row" *ngIf="isDeletingCourse">
+            <div class="col-md-2">
+              Biztos?
+            </div>
+            <div class="col-md">
+              <button type="button" class="btn btn-danger m-1" (click)="deleteCourse(course)">Törlés</button>
+              <button type="button" class="btn btn-primary m-1" (click)="toggleDeleteCourseMode()">Mégse</button>
+            </div>
+          </div>
+        </td>
       </tr>
     </tbody>
   </table>
+
+<form [formGroup]="newCourseForm">
+  <div class="row">
+    <div class="col-md-8">
+      <select class="form-select" id="subjectName" name="subjectName" formControlName="subjectName">
+        <option *ngFor="let subject of subjects" value="{{subject.name}}">{{subject.name}}</option>
+      </select>
+    </div>
+    <div class="col-md-1">
+      <input type="text" value="" class="form-control" formControlName="time" placeholder="HH:MM">
+    </div>
+    <div class="col-md">
+      <button type="button" class="btn btn-success m-1" (click)="createCourse()">Kurzus létrehozása</button>
+    </div>
+  </div>
+</form> 

@@ -21,4 +21,16 @@ export class CourseService {
       }
     }));
   }
+
+  createCourse(course: Course) {
+    return lastValueFrom(this.http.post<Course>('http://localhost:3000/api/courses', course));
+  }
+
+  updateCourse(course: Course) {
+    return lastValueFrom(this.http.put<Course>('http://localhost:3000/api/courses', course));
+  }
+
+  deleteCourse(id: number) {
+    return lastValueFrom(this.http.delete<Course>(`http://localhost:3000/api/courses/${id}`));
+  }
 }
