@@ -19,8 +19,14 @@
     <div class="col-md">
       <p>{{student.circle}}</p>
     </div>
-    <div class="col-md-2">
-      <button type="button" class="btn btn-danger m-1" (click)="deleteStudent()">Hallgató törlése</button>
+    <div class="col-md-1" *ngIf="isDeleting">
+      Biztos?
+    </div>
+    <div class="col-md-1" *ngIf="isDeleting">
+      <button type="button" class="btn btn-danger" (click)="deleteStudent()">Törlés</button>
+    </div>
+    <div class="col-md-2" *ngIf="!isDeleting">
+      <button type="button" class="btn btn-danger m-1" (click)="toggleDeleteMode()">Hallgató törlése</button>
     </div>
   </div>
 </div>
@@ -32,7 +38,7 @@
       <input type="text" class="form-control m-1" id="circle" name="circle" formControlName="circle" placeholder="Tankör">
   </div>
   <button type="button" class="btn btn-success m-1" (click)="updateStudent()">Szerkesztés</button>
-  <button type="button" class="btn btn-danger m-1" (click)="updateStudent()">Mégse</button>
+  <button type="button" class="btn btn-danger m-1" (click)="deleteStudent()">Mégse</button>
 </form>
 
 <table class="table">

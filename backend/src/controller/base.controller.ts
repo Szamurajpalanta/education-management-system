@@ -40,7 +40,7 @@ export class Controller {
             );
 
             if (!entity) {
-                return res.status(404).json({ message: 'Entity not found.' });
+                return res.status(404).json({ message: 'A megadott elem nem létezik.' });
             }
 
             res.json(entity);
@@ -59,7 +59,7 @@ export class Controller {
                 }
             );
             if (!existingEntity) {
-                return res.status(404).json({ message: 'Specified entity does not exist.' });
+                return res.status(404).json({ message: 'A megadott elem nem létezik.' });
             }
 
             const modifiedEntity = await this.repository.save(entity);
@@ -70,12 +70,16 @@ export class Controller {
     }
 
     delete = async (req, res) => {
-        const id = req.params.id;
+        const entityId = req.params.id;
 
         try {
-            const entity = await this.repository.findOne(id);
+            const entity = await this.repository.findOne(
+                {
+                    where: {id: entityId}
+                }
+            );
             if (!entity) {
-                return res.status(404).json({ message: 'Specified entity does not exist.' });
+                return res.status(404).json({ message: 'A megadott elem nem létezik.' });
             }
 
             await this.repository.delete(entity);

@@ -14,7 +14,7 @@ export class StudentService {
     return lastValueFrom(this.http.get<Student[]>('http://localhost:3000/api/students'));
   }
 
-  getStudent(id: number) {
+  getStudent(id: string) {
     return lastValueFrom(this.http.get<Student>(`http://localhost:3000/api/students/${id}`));
   }
 
@@ -32,5 +32,9 @@ export class StudentService {
 
   updateStudent(student: Student) {
     return lastValueFrom(this.http.put<Student>('http://localhost:3000/api/students', student));
+  }
+
+  deleteStudent(id: string) {
+    return lastValueFrom(this.http.delete<Student>(`http://localhost:3000/api/students/${id}`));
   }
 }

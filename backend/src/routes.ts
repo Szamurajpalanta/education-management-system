@@ -13,7 +13,7 @@ export function getRoutes() {
     router.get('/api/courses/:id', courseCtrl.getOne);
     router.post('/api/courses', courseCtrl.create);
     router.put('/api/courses', courseCtrl.update);
-    router.delete('/api/courses', courseCtrl.delete);
+    router.delete('/api/courses/:id', courseCtrl.delete);
 
     const studentCtrl = new StudentController();
     router.get('/api/students', studentCtrl.getAll);
@@ -21,21 +21,21 @@ export function getRoutes() {
     router.get('/api/search/students', studentCtrl.search);
     router.post('/api/students', studentCtrl.create);
     router.put('/api/students', studentCtrl.update);
-    router.delete('/api/students', studentCtrl.delete);
+    router.delete('/api/students/:id', studentCtrl.delete);
 
     const subjectCtrl = new SubjectController();
     router.get('/api/subjects', subjectCtrl.getAll);
     router.get('/api/subjects/:id', subjectCtrl.getOne);
     router.post('/api/subjects', subjectCtrl.create);
     router.put('/api/subjects', subjectCtrl.update);
-    router.delete('/api/subjects', subjectCtrl.delete);
+    router.delete('/api/subjects/:id', subjectCtrl.delete);
 
     const teacherCtrl = new TeacherController();
     router.get('/api/teachers', teacherCtrl.getAll);
     router.get('/api/teachers/:id', teacherCtrl.getOne);
     router.post('/api/teachers', teacherCtrl.create);
     router.put('/api/teachers', teacherCtrl.update);
-    router.delete('/api/teachers', teacherCtrl.delete);
+    router.delete('/api/teachers/:id', teacherCtrl.delete);
 
     const enrollmentCtrl = new EnrollmentController();
     router.get('/api/enrollments', enrollmentCtrl.getAll);
@@ -43,7 +43,7 @@ export function getRoutes() {
     router.get('/api/search/enrollments', enrollmentCtrl.search);
     router.post('/api/enrollments', enrollmentCtrl.create);
     router.put('/api/enrollments', enrollmentCtrl.update);
-    router.delete('/api/enrollments', enrollmentCtrl.delete);
+    router.delete('/api/enrollments/:id', enrollmentCtrl.delete);
 
     return router;
 }
