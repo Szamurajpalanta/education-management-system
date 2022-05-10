@@ -19,8 +19,6 @@
         <button type="button" class="btn btn-success m-1" (click)="createUser()" *ngIf="isRegistering">Új felhasználó létrehozása</button>
         <button type="button" class="btn btn-outline-primary m-1" (click)="toggleRegistration()" *ngIf="isRegistering">Bejelentkezés</button>
     </form>
-    <button type="button" class="btn btn-danger m-1" (click)="setAuthentication(true)">Bejelentkezés felhasználó nélkül</button>
-    <button type="button" class="btn btn-danger m-1" (click)="toggleRegistration()">Regisztráció/bejelentkezés váltása</button>
 </div>
 
 <router-outlet *ngIf="isAuthenticated"></router-outlet>
