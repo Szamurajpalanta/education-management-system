@@ -9,6 +9,7 @@ import { NavComponent } from './nav/nav.component';
 import { StudentListComponent } from './student-list/student-list.component';
 import { TeacherListComponent } from './teacher-list/teacher-list.component';
 import { StudentDetailsComponent } from './student-details/student-details.component';
+import { TeacherDetailsComponent } from './teacher-details/teacher-details.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { StudentDetailsComponent } from './student-details/student-details.compo
     NavComponent,
     StudentListComponent,
     TeacherListComponent,
-    StudentDetailsComponent
+    StudentDetailsComponent,
+    TeacherDetailsComponent
   ],
   imports: [
     BrowserModule,
