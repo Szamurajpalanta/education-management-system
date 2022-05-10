@@ -1,7 +1,7 @@
 <div class="float-container">
   <div class="row">
     <div class="col-md">
-      <p class="font-weight-bold">{{subject.name}}</p>
+      <h4>{{subject.name}}</h4>
     </div>
   </div>
 
@@ -13,8 +13,8 @@
         <th scope="col"></th>
       </tr>
     </thead>
-    <tbody *ngFor="let course of subjectCourses">
-      <tr>
+    <tbody>
+      <tr *ngFor="let course of subjectCourses">
         <td>{{course.teacher.name}}</td>
         <td>{{course.time}}</td>
         <!--

@@ -5,10 +5,10 @@
 <div class="float-container" *ngIf="!isEditingStudent">
   <div class="row">
     <div class="col-md-1">
-      {{student.id}}
+      <h4>{{student.id}}</h4>
     </div>
     <div class="col-md">
-      {{student.name}}
+      <h4>{{student.name}}</h4>
     </div>
     <div class="col-md-2">
       <button type="button" class="btn btn-primary m-1" (click)="toggleEditStudentMode()">Hallgató szerkesztése</button>
@@ -50,13 +50,13 @@
       <th scope="col"></th>
     </tr>
   </thead>
-  <tbody *ngFor="let enrollment of enrollments">
+  <tbody *ngFor="let enrollment of studentEnrollments">
     <tr>
-      <th scope="row">{{enrollment.course}}</th>
-      <td>{{enrollment.student}}</td>
+      <th scope="row">{{enrollment.course.subject.name}}</th>
+      <td>{{enrollment.course.time}}</td>
       <td *ngIf="!isEditingEnrollment">{{enrollment.mark}}</td>
       <td *ngIf="isEditingEnrollment">
-        <input type="number" min="1" max="5" value="{{enrollment.mark}}" class="form-control" [(ngModel)]="tempMark" placeholder="Keresés hallgató neve szerint">
+        <input type="number" min="1" max="5" value="{{enrollment.mark}}" class="form-control" [(ngModel)]="tempMark" placeholder="5">
       </td>
       <td>
         <button type="button" class="btn btn-primary m-1" *ngIf="!isEditingEnrollment && !isDeletingEnrollment" (click)="toggleEditEnrollmentMode()">Értékelés módosítása</button>
@@ -76,4 +76,24 @@
     </tr>
   </tbody>
 </table>
-<p>A hallgató átlaga: {{calculateAverage(enrollments)}}</p>
+
+<form [formGroup]="newEnrollmentForm">
+  <div class="row">
+    <div class="col-md-7">
+      <select class="form-select" id="subjectName" name="subjectName" formControlName="subjectName">
+        <option *ngFor="let subject of subjects" value="{{subject.name}}">{{subject.name}}</option>
+      </select>
+    </div>
+    <div class="col-md-1">
+      <input type="text" value="" class="form-control" formControlName="time" placeholder="HH:MM">
+    </div>
+    <div class="col-md-1">
+      <input type="number" min="1" max="5" value="1" class="form-control" formControlName="mark" placeholder="5">
+    </div>
+    <div class="col-md">
+      <button type="button" class="btn btn-success m-1" (click)="createEnrollment()">Kurzus létrehozása</button>
+    </div>
+  </div>
+</form> 
+
+<p>A hallgató átlaga: {{calculateAverage()}}</p>

@@ -1,9 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Course } from '../models/course';
 import { Enrollment } from '../models/enrollment';
 import { Student } from '../models/student';
+import { Subject } from '../models/subject';
 import { EnrollmentService } from '../services/enrollment.service';
 import { StudentService } from '../services/student.service';
+import { SubjectService } from '../services/subject.service';
 
 @Component({
   selector: 'app-student-details',
@@ -13,6 +16,8 @@ import { StudentService } from '../services/student.service';
 export class StudentDetailsComponent implements OnInit {
   @Input() student!: Student;
   enrollments: Enrollment[] = [];
+  studentEnrollments: Enrollment[] = [];
+  subjects: Subject[] = [];
   isEditingStudent: boolean = false;
   isEditingEnrollment: boolean = false;
   isDeletingStudent: boolean = false;
@@ -21,27 +26,65 @@ export class StudentDetailsComponent implements OnInit {
   success: boolean = false;
   statusMessage = '';
   editStudentForm!: FormGroup;
+  newEnrollmentForm!: FormGroup;
   tempMark: number = 1;
+  enrollmentSkeleton = {
+    subjectName: '',
+    time: '',
+    mark: 1
+  }
+  newEnrollment: Enrollment = {
+    id: 0,
+    course: new Course,
+    student: new Student,
+    mark: 0
+  }
 
   constructor(
     private studentService: StudentService,
     private enrollmentService: EnrollmentService,
+    private subjectService: SubjectService,
     private formBuilder: FormBuilder
   ) { }
 
   async ngOnInit() {
     this.getEnrollments();
+    this.getSubjects();
 
     this.editStudentForm = this.formBuilder.group({
       id: [this.student.id],
       name: [this.student.name, [Validators.required]],
       circle: [this.student.circle, [Validators.required]],
     });
+
+    this.newEnrollmentForm = this.formBuilder.group({
+      mark: ['', [Validators.required]],
+      subjectName: ['', [Validators.required]],
+      time: ['', Validators.required]
+    });
   }
 
   async getEnrollments() {
     try {
-      this.enrollments = await this.enrollmentService.searchEnrollments(this.student.id);
+      this.enrollments = await this.enrollmentService.getEnrollments();
+    } catch (err) {
+      console.error(err);
+    }
+    console.log(this.enrollments);
+
+    console.log(this.student.id);
+    this.enrollments.forEach(enrollment => {
+      console.log(enrollment)
+      if (enrollment.student.id === this.student.id) {
+        this.studentEnrollments.push(enrollment);
+      }
+    });
+    console.log(this.studentEnrollments);
+  }
+
+  async getSubjects() {
+    try {
+      this.subjects = await this.subjectService.getSubjects();
     } catch (err) {
       console.error(err);
     }
@@ -148,13 +191,21 @@ export class StudentDetailsComponent implements OnInit {
     }
   }
 
-  calculateAverage(enrollments: Enrollment[]) {
+  calculateAverage() {
     let temp = 0;
-    enrollments.forEach(enrollment => {
+    this.studentEnrollments.forEach(enrollment => {
       temp += enrollment.mark;
     });
-    temp /= enrollments.length;
+    temp /= this.studentEnrollments.length;
     return temp;
+  }
+
+  async createEnrollment() {
+    let index = 0;
+    this.enrollmentSkeleton = this.newEnrollmentForm.value;
+    this.newEnrollment.student = this.student;
+
+    console.log(this.newEnrollment);
   }
 
 }

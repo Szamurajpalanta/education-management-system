@@ -5,10 +5,10 @@
   <div class="float-container" *ngIf="!isEditingTeacher">
     <div class="row">
       <div class="col-md-1">
-        {{teacher.id}}
+        <h4>{{teacher.id}}</h4>
       </div>
       <div class="col-md">
-        {{teacher.name}}
+        <h4>{{teacher.name}}</h4>
       </div>
       <div class="col-md-2">
         <button type="button" class="btn btn-primary m-1" (click)="toggleEditTeacherMode()">Oktató szerkesztése</button>
