@@ -1,3 +1,21 @@
+<div class="row">
+    <form [formGroup]="newSubjectForm">
+        <div class="col-md">
+            <input type="text" class="form-control m-1" id="name" name="name" formControlName="name" placeholder="Tantárgy megnevezése">
+        </div>
+        <button type="button" class="btn btn-success m-1" (click)="addNewSubject()">Létrehozás</button>
+    </form>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <input type="text" class="form-control" [(ngModel)]="query" placeholder="Keresés tantárgy megnevezése szerint">
+    </div>
+    <div class="col-md">
+        <button class="btn btn-primary" (click)="search()">Keresés</button>
+    </div>
+</div>
+
 <div class="col-md-12 border-top m-1" *ngFor="let subject of subjects">
     <app-subject-details [subject]="subject"></app-subject-details>
 </div>

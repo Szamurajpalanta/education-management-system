@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Subject } from '../models/subject';
 import { SubjectService } from '../services/subject.service';
 
@@ -10,9 +11,11 @@ import { SubjectService } from '../services/subject.service';
 export class SubjectListComponent implements OnInit {
 
   subjects: Subject[] = [];
+  query: string = '';
 
   constructor(
-    private subjectService: SubjectService
+    private subjectService: SubjectService,
+    private formBuilder: FormBuilder
   ) { }
 
   async ngOnInit() {
@@ -22,6 +25,22 @@ export class SubjectListComponent implements OnInit {
     } catch (err) {
       console.error(err);
     }
+  }
+
+  newSubjectForm = this.formBuilder.group({
+    name: ['', [Validators.required]],
+  });
+
+  async search() {
+    try {
+      this.subjects = await this.subjectService.searchSubjects(this.query);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  addNewSubject() {
+
   }
 
 }
