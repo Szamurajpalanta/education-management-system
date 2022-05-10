@@ -40,27 +40,27 @@ export class StudentListComponent implements OnInit {
     }
   }
 
-  studentForm = this.formBuilder.group({
+  newStudentForm = this.formBuilder.group({
     id: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
     name: ['', [Validators.required]],
     circle: ['', [Validators.required]],
   });
 
   get id() {
-    return this.studentForm.get('id');
+    return this.newStudentForm.get('id');
   }
  
   get name() {
-    return this.studentForm.get('name');
+    return this.newStudentForm.get('name');
   }
  
   get circle() {
-    return this.studentForm.get('circle');
+    return this.newStudentForm.get('circle');
   }
 
   async addNewStudent() {
     this.statusMessage = '';
-    const student = this.studentForm.value;
+    const student = this.newStudentForm.value;
     this.showStatusMessage = true;
 
     try {
