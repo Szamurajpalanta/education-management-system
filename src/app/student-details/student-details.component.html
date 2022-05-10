@@ -2,7 +2,7 @@
   {{ statusMessage }}
 </div>
 
-<div class="float-container" *ngIf="!isEditing">
+<div class="float-container" *ngIf="!isEditingStudent">
   <div class="row">
     <div class="col-md-1">
       {{student.id}}
@@ -11,7 +11,7 @@
       {{student.name}}
     </div>
     <div class="col-md-2">
-      <button type="button" class="btn btn-primary m-1" (click)="toggleEditMode()">Hallgató szerkesztése</button>
+      <button type="button" class="btn btn-primary m-1" (click)="toggleEditStudentMode()">Hallgató szerkesztése</button>
     </div>    
   </div>
 
@@ -19,41 +19,61 @@
     <div class="col-md">
       <p>{{student.circle}}</p>
     </div>
-    <div class="col-md-1" *ngIf="isDeleting">
+    <div class="col-md-1" *ngIf="isDeletingStudent">
       Biztos?
     </div>
-    <div class="col-md-1" *ngIf="isDeleting">
+    <div class="col-md-1" *ngIf="isDeletingStudent">
       <button type="button" class="btn btn-danger" (click)="deleteStudent()">Törlés</button>
     </div>
-    <div class="col-md-2" *ngIf="!isDeleting">
-      <button type="button" class="btn btn-danger m-1" (click)="toggleDeleteMode()">Hallgató törlése</button>
+    <div class="col-md-2" *ngIf="!isDeletingStudent">
+      <button type="button" class="btn btn-danger m-1" (click)="toggleDeleteStudentMode()">Hallgató törlése</button>
     </div>
   </div>
 </div>
 
-<form [formGroup]="editStudentForm" *ngIf="isEditing">  
+<form [formGroup]="editStudentForm" *ngIf="isEditingStudent">  
   <div class="col-md">
       <input type="text" class="form-control m-1" id="id" name="id" formControlName="id" placeholder="Egyedi azonosító" readonly>
       <input type="text" class="form-control m-1" id="name" name="name" formControlName="name" placeholder="Hallgató neve">
       <input type="text" class="form-control m-1" id="circle" name="circle" formControlName="circle" placeholder="Tankör">
   </div>
   <button type="button" class="btn btn-success m-1" (click)="updateStudent()">Szerkesztés</button>
-  <button type="button" class="btn btn-danger m-1" (click)="toggleEditMode()">Mégse</button>
+  <button type="button" class="btn btn-danger m-1" (click)="toggleEditStudentMode()">Mégse</button>
 </form>
 
 <table class="table">
   <thead>
     <tr>      
-      <th scope="col">Tantárgy</th>
-      <th scope="col">Időpont</th>
-      <th scope="col">Értékelés</th>
+      <th class="col-md-7" scope="col">Tantárgy</th>
+      <th class="col-md-1" scope="col">Időpont</th>
+      <th class="col-md-1" scope="col">Értékelés</th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <tbody *ngFor="let enrollment of enrollments">
     <tr>
       <th scope="row">{{enrollment.course}}</th>
       <td>{{enrollment.student}}</td>
-      <td>{{enrollment.mark}}</td>
+      <td *ngIf="!isEditingEnrollment">{{enrollment.mark}}</td>
+      <td *ngIf="isEditingEnrollment">
+        <input type="number" min="1" max="5" value="{{enrollment.mark}}" class="form-control" [(ngModel)]="tempMark" placeholder="Keresés hallgató neve szerint">
+      </td>
+      <td>
+        <button type="button" class="btn btn-primary m-1" *ngIf="!isEditingEnrollment && !isDeletingEnrollment" (click)="toggleEditEnrollmentMode()">Értékelés módosítása</button>
+        <button type="button" class="btn btn-danger m-1" *ngIf="!isEditingEnrollment && !isDeletingEnrollment" (click)="toggleDeleteEnrollmentMode()">Törlés</button>
+        <button type="button" class="btn btn-success m-1" *ngIf="isEditingEnrollment" (click)="updateEnrollment(enrollment)">Mentés</button>
+        <button type="button" class="btn btn-danger m-1" *ngIf="isEditingEnrollment" (click)="toggleEditEnrollmentMode()">Mégse</button>
+        <div class="row" *ngIf="isDeletingEnrollment">
+          <div class="col-md-2">
+            Biztos?
+          </div>
+          <div class="col-md">
+            <button type="button" class="btn btn-danger m-1" (click)="deleteEnrollment(enrollment)">Törlés</button>
+            <button type="button" class="btn btn-primary m-1" (click)="toggleDeleteEnrollmentMode()">Mégse</button>
+          </div>
+        </div>
+      </td>
     </tr>
   </tbody>
 </table>
+<p>A hallgató átlaga: {{calculateAverage(enrollments)}}</p>

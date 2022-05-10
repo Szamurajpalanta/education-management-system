@@ -21,4 +21,16 @@ export class EnrollmentService {
       }
     }));
   }
+
+  createEnrollment(enrollment: Enrollment) {
+    return lastValueFrom(this.http.post<Enrollment>('http://localhost:3000/api/enrollments', enrollment));
+  }
+
+  updateEnrollment(enrollment: Enrollment) {
+    return lastValueFrom(this.http.put<Enrollment>('http://localhost:3000/api/enrollments', enrollment));
+  }
+
+  deleteEnrollment(id: number) {
+    return lastValueFrom(this.http.delete<Enrollment>(`http://localhost:3000/api/enrollments/${id}`));
+  }
 }
