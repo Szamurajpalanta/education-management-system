@@ -51,6 +51,7 @@ export class TeacherDetailsComponent implements OnInit {
     }
 
     console.log("getTeacherCourses vagyok: ", this.teacher.id);
+    this.teacherCourses = [];
     this.courses.forEach(course => {
       if (course.teacher.id === this.teacher.id) {
         this.teacherCourses.push(course);
@@ -84,6 +85,7 @@ export class TeacherDetailsComponent implements OnInit {
   }
 
   getTeacherCourses() {
+    this.teacherCourses = [];
     console.log(this.teacher.id);
     this.courses.forEach(course => {
       console.log(course)
@@ -197,6 +199,8 @@ export class TeacherDetailsComponent implements OnInit {
     
     try {
       await this.courseService.deleteCourse(course.id);
+      let index = this.teacherCourses.indexOf(course);
+      this.teacherCourses.splice(index, 1);
       this.getCourses();
       this.getTeacherCourses();
       this.statusMessage = 'Az okatatott kurzus törlése sikeres volt.';
