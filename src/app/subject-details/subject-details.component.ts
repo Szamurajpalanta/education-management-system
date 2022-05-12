@@ -4,6 +4,7 @@ import { Course } from '../models/course';
 import { Subject } from '../models/subject';
 import { Teacher } from '../models/teacher';
 import { CourseService } from '../services/course.service';
+import { SubjectService } from '../services/subject.service';
 import { TeacherService } from '../services/teacher.service';
 
 @Component({
@@ -16,23 +17,31 @@ export class SubjectDetailsComponent implements OnInit {
   @Input() subject!: Subject;
   courses: Course[] = [];
   teachers: Teacher[] = [];
+  subjects: Subject[] = [];
   subjectCourses: Course[] = [];
   teacherCourses: Course[] = [];
   selectedTeacher!: Teacher;
   tempTime: string = '';
+  tempName: string = '';
+  isEditingSubject: boolean = false;
+  isDeletingSubject: boolean = false;
   isDeletingCourse: boolean = false;
   showStatusMessage: boolean = false;
   success: boolean = false;
   statusMessage = '';
-  isEditingSubject: boolean = false;
   newCourse: Course = {
     id: 0,
     time: '',
     teacher: new Teacher,
     subject: new Subject
   };
+  newSubject: Subject = {
+    id: 0,
+    name: '',
+  };
 
   constructor(
+    private subjectService: SubjectService,
     private courseService: CourseService,
     private teacherService: TeacherService
   ) { }
@@ -47,6 +56,22 @@ export class SubjectDetailsComponent implements OnInit {
 
     this.getSubjectCourses();
     this.getTeachers();
+  }
+
+  toggleEditSubjectMode() {
+    if (this.isEditingSubject) {
+      this.isEditingSubject = false;
+    } else {
+      this.isEditingSubject = true;
+    }
+  }
+
+  toggleDeleteSubjectMode() {
+    if (this.isDeletingSubject) {
+      this.isDeletingSubject = false;
+    } else {
+      this.isDeletingSubject = true;
+    }
   }
 
   toggleDeleteCourseMode() {
@@ -138,6 +163,41 @@ export class SubjectDetailsComponent implements OnInit {
       this.statusMessage = err.error.message;
       this.success = false;
     }   
+  }
+
+  async updateSubject() {
+    this.statusMessage = '';
+    this.subject.name = this.tempName;
+    this.showStatusMessage = true;
+
+    try {
+      await this.subjectService.updateSubject(this.subject);
+      this.statusMessage = 'A tantárgy módosítása sikeres volt.';
+      this.success = true;
+      this.toggleEditSubjectMode();
+    } catch (err: any) {
+      this.statusMessage = err.error.message;
+      this.success = false;
+    }
+  }
+  
+  async deleteSubject() {
+    this.showStatusMessage = true;
+    this.toggleDeleteSubjectMode();
+    
+    if (this.subjectCourses.length === 0) {
+      try {
+        await this.subjectService.deleteSubject(this.subject.id);
+        this.statusMessage = 'A tantárgy törlése sikeres volt.';
+        this.success = true;
+      } catch (err: any) {
+        this.statusMessage = err.error.message;
+        this.success = false;
+      }
+    } else {
+      this.statusMessage = "A törölni kívánt tantárgyhoz még tartozik kurzus.";
+      this.success = false;
+    }
   }
 
   checkTimeConflict(time: String): boolean {

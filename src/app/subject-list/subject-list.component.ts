@@ -52,6 +52,7 @@ export class SubjectListComponent implements OnInit {
     this.showStatusMessage = true;
 
     this.newSubject.id = this.subjectService.getLowestAvailableId(await this.subjectService.getSubjects());
+    this.newSubject.name = this.subjectName;
 
     try {
       await this.subjectService.createSubject(this.newSubject);

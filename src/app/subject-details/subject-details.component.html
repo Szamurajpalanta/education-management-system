@@ -2,41 +2,71 @@
   {{ statusMessage }}
 </div>
 
-<div class="float-container">
+<div class="float-container" *ngIf="!isEditingSubject">
   <div class="row">
     <div class="col-md">
       <h4>{{subject.name}}</h4>
     </div>
+    <div class="col-md-2">
+      <button type="button" class="btn btn-primary m-1" (click)="toggleEditSubjectMode()">Tantárgy szerkesztése</button>
+    </div>   
   </div>
 
-  <table class="table">
-    <thead>
-      <tr>      
-        <th class="col-md-7" scope="col">Oktató</th>
-        <th class="col-md-1" scope="col">Időpont</th>
-        <th scope="col"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let course of subjectCourses">
-        <td>{{course.teacher.name}}</td>
-        <td>{{course.time}}</td>
-        <td>
-          <button type="button" class="btn btn-danger m-1" *ngIf="!isDeletingCourse" (click)="toggleDeleteCourseMode()">Törlés</button>
-          <div class="row" *ngIf="isDeletingCourse">
-            <div class="col-md-2">
-              Biztos?
-            </div>
-            <div class="col-md">
-              <button type="button" class="btn btn-danger m-1" (click)="deleteCourse(course)">Törlés</button>
-              <button type="button" class="btn btn-primary m-1" (click)="toggleDeleteCourseMode()">Mégse</button>
-            </div>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="row">
+    <div class="col-md"></div>
+    <div class="col-md-1" *ngIf="isDeletingSubject">
+      Biztos?
+    </div>
+    <div class="col-md-1" *ngIf="isDeletingSubject">
+      <button type="button" class="btn btn-danger" (click)="deleteSubject()">Törlés</button>
+    </div>
+    <div class="col-md-2" *ngIf="!isDeletingSubject">
+      <button type="button" class="btn btn-danger m-1" (click)="toggleDeleteSubjectMode()">Tantárgy törlése</button>
+    </div>
+  </div>
 </div>
+
+<div class="float-container" *ngIf="isEditingSubject">
+  <div class="row">
+    <div class="col-md">
+      <input type="text" class="form-control m-1" id="name" name="name" value="{{subject.name}}" placeholder="Tantárgy megnevezése" [(ngModel)]="tempName">
+    </div>
+    <div class="col-md-2">
+      <button type="button" class="btn btn-success m-1" *ngIf="isEditingSubject" (click)="updateSubject()">Mentés</button>
+      <button type="button" class="btn btn-danger m-1" *ngIf="isEditingSubject" (click)="toggleEditSubjectMode()">Mégse</button>
+    </div>
+  </div>
+</div>
+
+
+
+<table class="table">
+  <thead>
+    <tr>      
+      <th class="col-md-7" scope="col">Oktató</th>
+      <th class="col-md-1" scope="col">Időpont</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let course of subjectCourses">
+      <td>{{course.teacher.name}}</td>
+      <td>{{course.time}}</td>
+      <td>
+        <button type="button" class="btn btn-danger m-1" *ngIf="!isDeletingCourse" (click)="toggleDeleteCourseMode()">Törlés</button>
+        <div class="row" *ngIf="isDeletingCourse">
+          <div class="col-md-2">
+            Biztos?
+          </div>
+          <div class="col-md">
+            <button type="button" class="btn btn-danger m-1" (click)="deleteCourse(course)">Törlés</button>
+            <button type="button" class="btn btn-primary m-1" (click)="toggleDeleteCourseMode()">Mégse</button>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 <div class="row">
   <div class="col-md-7">
