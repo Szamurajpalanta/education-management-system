@@ -19,6 +19,10 @@
         <button type="button" class="btn btn-success m-1" (click)="createUser()" *ngIf="isRegistering">Új felhasználó létrehozása</button>
         <button type="button" class="btn btn-outline-primary m-1" (click)="toggleRegistration()" *ngIf="isRegistering">Bejelentkezés</button>
     </form>
+
+    <br>
+    <button type="button" class="btn btn-outline-danger m-1" (click)="setAuthentication(true)">Bejelentkezés adatok nélkül</button>
+    <button type="button" class="btn btn-outline-warning m-1" (click)="testCrypto()">Jelszó hash teszt</button>
 </div>
 
 <router-outlet *ngIf="isAuthenticated"></router-outlet>
