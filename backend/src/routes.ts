@@ -28,6 +28,7 @@ export function getRoutes() {
     const subjectCtrl = new SubjectController();
     router.get('/api/subjects', subjectCtrl.getAll);
     router.get('/api/subjects/:id', subjectCtrl.getOne);
+    router.get('/api/search/subjects', subjectCtrl.search);
     router.post('/api/subjects', subjectCtrl.create);
     router.put('/api/subjects', subjectCtrl.update);
     router.delete('/api/subjects/:id', subjectCtrl.delete);

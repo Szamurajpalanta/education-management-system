@@ -11,7 +11,15 @@ import { SubjectService } from '../services/subject.service';
 export class SubjectListComponent implements OnInit {
 
   subjects: Subject[] = [];
+  subjectName: string = '';
   query: string = '';
+  showStatusMessage: boolean = false;
+  success: boolean = false;
+  statusMessage = '';
+  newSubject: Subject = {
+    id: 0,
+    name: ''
+  }
 
   constructor(
     private subjectService: SubjectService,
@@ -39,8 +47,20 @@ export class SubjectListComponent implements OnInit {
     }
   }
 
-  addNewSubject() {
+  async addNewSubject() {
+    this.statusMessage = '';
+    this.showStatusMessage = true;
 
+    this.newSubject.id = this.subjectService.getLowestAvailableId(await this.subjectService.getSubjects());
+
+    try {
+      await this.subjectService.createSubject(this.newSubject);
+      this.success = true;
+      this.statusMessage = 'Új tantárgy jött létre a következő megnevezéssel: ' + this.newSubject.name;      
+    } catch (err: any) {
+      this.statusMessage = err.error.message;
+      this.success = false;
+    }
   }
 
 }

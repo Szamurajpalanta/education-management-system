@@ -24,6 +24,7 @@ export class SubjectDetailsComponent implements OnInit {
   showStatusMessage: boolean = false;
   success: boolean = false;
   statusMessage = '';
+  isEditingSubject: boolean = false;
   newCourse: Course = {
     id: 0,
     time: '',
