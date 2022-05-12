@@ -77,23 +77,18 @@
   </tbody>
 </table>
 
-<form [formGroup]="newEnrollmentForm">
-  <div class="row">
-    <div class="col-md-7">
-      <select class="form-select" id="subjectName" name="subjectName" formControlName="subjectName">
-        <option *ngFor="let subject of subjects" value="{{subject.name}}">{{subject.name}}</option>
-      </select>
-    </div>
-    <div class="col-md-1">
-      <input type="text" value="" class="form-control" formControlName="time" placeholder="HH:MM">
-    </div>
-    <div class="col-md-1">
-      <input type="number" min="1" max="5" value="1" class="form-control" formControlName="mark" placeholder="5">
-    </div>
-    <div class="col-md">
-      <button type="button" class="btn btn-success m-1" (click)="createEnrollment()">Kurzus létrehozása</button>
-    </div>
+<div class="row">
+  <div class="col-md-8">
+    <select class="form-select" id="course" name="course" [(ngModel)]="selectedCourse">
+      <option *ngFor="let course of courses" [ngValue]="course">{{course.subject.name}} - {{course.time}}</option>
+    </select>
   </div>
-</form> 
+  <div class="col-md-1">
+    <input type="number" min="1" max="5" value="1" class="form-control" placeholder="5" [(ngModel)]="tempMark">
+  </div>
+  <div class="col-md">
+    <button type="button" class="btn btn-success" (click)="createEnrollment()">Kurzus létrehozása</button>
+  </div>
+</div>
 
 <p>A hallgató átlaga: {{calculateAverage()}}</p>

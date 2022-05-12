@@ -4,6 +4,7 @@ import { Course } from '../models/course';
 import { Enrollment } from '../models/enrollment';
 import { Student } from '../models/student';
 import { Subject } from '../models/subject';
+import { CourseService } from '../services/course.service';
 import { EnrollmentService } from '../services/enrollment.service';
 import { StudentService } from '../services/student.service';
 import { SubjectService } from '../services/subject.service';
@@ -18,6 +19,8 @@ export class StudentDetailsComponent implements OnInit {
   enrollments: Enrollment[] = [];
   studentEnrollments: Enrollment[] = [];
   subjects: Subject[] = [];
+  courses: Course[] = [];
+  selectedCourse!: Course;
   isEditingStudent: boolean = false;
   isEditingEnrollment: boolean = false;
   isDeletingStudent: boolean = false;
@@ -28,11 +31,6 @@ export class StudentDetailsComponent implements OnInit {
   editStudentForm!: FormGroup;
   newEnrollmentForm!: FormGroup;
   tempMark: number = 1;
-  enrollmentSkeleton = {
-    subjectName: '',
-    time: '',
-    mark: 1
-  }
   newEnrollment: Enrollment = {
     id: 0,
     course: new Course,
@@ -43,6 +41,7 @@ export class StudentDetailsComponent implements OnInit {
   constructor(
     private studentService: StudentService,
     private enrollmentService: EnrollmentService,
+    private courseService: CourseService,
     private subjectService: SubjectService,
     private formBuilder: FormBuilder
   ) { }
@@ -50,18 +49,21 @@ export class StudentDetailsComponent implements OnInit {
   async ngOnInit() {
     this.getEnrollments();
     this.getSubjects();
+    this.getCourses();
 
     this.editStudentForm = this.formBuilder.group({
       id: [this.student.id],
       name: [this.student.name, [Validators.required]],
       circle: [this.student.circle, [Validators.required]],
     });
+  }
 
-    this.newEnrollmentForm = this.formBuilder.group({
-      mark: ['', [Validators.required]],
-      subjectName: ['', [Validators.required]],
-      time: ['', Validators.required]
-    });
+  async getCourses() {
+    try {
+      this.courses = await this.courseService.getCourses();
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   async getEnrollments() {
@@ -70,9 +72,11 @@ export class StudentDetailsComponent implements OnInit {
     } catch (err) {
       console.error(err);
     }
+    this.sortEnrollments();
     console.log(this.enrollments);
 
     console.log(this.student.id);
+    this.studentEnrollments = [];
     this.enrollments.forEach(enrollment => {
       console.log(enrollment)
       if (enrollment.student.id === this.student.id) {
@@ -182,9 +186,12 @@ export class StudentDetailsComponent implements OnInit {
     
     try {
       await this.enrollmentService.deleteEnrollment(enrollment.id);
+      let index = this.studentEnrollments.indexOf(enrollment);
+      this.studentEnrollments.splice(index, 1);
       this.getEnrollments();
       this.statusMessage = 'A felvett kurzus törlése sikeres volt.';
       this.success = true;
+      this.calculateAverage()
     } catch (err: any) {
       this.statusMessage = err.error.message;
       this.success = false;
@@ -201,11 +208,83 @@ export class StudentDetailsComponent implements OnInit {
   }
 
   async createEnrollment() {
-    let index = 0;
-    this.enrollmentSkeleton = this.newEnrollmentForm.value;
+    this.newEnrollment.id = this.getLowestAvailableId();
     this.newEnrollment.student = this.student;
-
+    this.newEnrollment.course = this.selectedCourse;
+    this.newEnrollment.mark = this.tempMark;
+    this.showStatusMessage = true;
     console.log(this.newEnrollment);
+
+    try {
+      if (!this.doesTimeConflict(this.newEnrollment.course.time)) {
+        if (!this.doesTimeConflict(this.newEnrollment.course.time)) {
+        await this.enrollmentService.createEnrollment(this.newEnrollment);
+        this.getEnrollments();
+        this.statusMessage = 'A kiválasztott tárgy sikeresen felvételre került az hallgató számára.';
+        this.success = true;
+        this.calculateAverage();
+        } else {
+          this.statusMessage = 'A jelenlegi hallgatónak már van egy kurzusa a megadott időpontban.';
+          this.success = false;
+        }
+      } else {
+        this.statusMessage = 'A jelenlegi hallgatónak már fel van véve a kiválasztott kurzus.';
+        this.success = false;
+      }
+      
+    } catch (err: any) {
+      this.statusMessage = err.error.message;
+      this.success = false;
+    }
+  }
+
+  doesTimeConflict(time: String): boolean {
+    let conflict = false;
+    
+    this.studentEnrollments.forEach(element => {
+      if (element.course.time === time) {
+        conflict = true;
+      }
+    });
+
+    return conflict;
+  }
+
+  isAlreadyAppliedToCourse(course: Course): boolean {
+    let conflict = false;
+    
+    this.studentEnrollments.forEach(element => {
+      if (element.course.id === course.id) {
+        conflict = true;
+      }
+    });
+
+    return conflict;
+  }
+
+  getLowestAvailableId(): number {
+    this.getEnrollments();
+    console.log(this.enrollments);
+    let currentId = -1;
+    let index = 0;
+    for (index = 0; index < this.enrollments.length; index++) {
+      currentId = this.enrollments[index].id;
+      console.log("hmmm...: " + index + " = " + currentId);
+      if (index != currentId) {
+        console.log("adom ezt: " + index);
+        return index;
+      }
+    }
+    console.log("adom ezt: " + this.enrollments.length + 2);
+    return currentId + 1;
+  }
+
+  sortEnrollments() {
+    this.enrollments.sort((a, b) => {
+      if (a.id > b.id) return 1;
+      if (a.id < b.id) return -1;
+      return 0;
+    });
   }
 
 }
