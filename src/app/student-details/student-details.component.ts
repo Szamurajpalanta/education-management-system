@@ -208,7 +208,7 @@ export class StudentDetailsComponent implements OnInit {
   }
 
   async createEnrollment() {
-    this.newEnrollment.id = this.getLowestAvailableId();
+    this.newEnrollment.id = this.enrollmentService.getLowestAvailableId(await this.enrollmentService.getEnrollments());
     this.newEnrollment.student = this.student;
     this.newEnrollment.course = this.selectedCourse;
     this.newEnrollment.mark = this.tempMark;
@@ -260,23 +260,6 @@ export class StudentDetailsComponent implements OnInit {
     });
 
     return conflict;
-  }
-
-  getLowestAvailableId(): number {
-    this.getEnrollments();
-    console.log(this.enrollments);
-    let currentId = -1;
-    let index = 0;
-    for (index = 0; index < this.enrollments.length; index++) {
-      currentId = this.enrollments[index].id;
-      console.log("hmmm...: " + index + " = " + currentId);
-      if (index != currentId) {
-        console.log("adom ezt: " + index);
-        return index;
-      }
-    }
-    console.log("adom ezt: " + this.enrollments.length + 2);
-    return currentId + 1;
   }
 
   sortEnrollments() {

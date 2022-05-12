@@ -33,4 +33,15 @@ export class EnrollmentService {
   deleteEnrollment(id: number) {
     return lastValueFrom(this.http.delete<Enrollment>(`http://localhost:3000/api/enrollments/${id}`));
   }
+
+  getLowestAvailableId(enrollments: Enrollment[]): number {
+    let i = 0;
+    enrollments.forEach(enrollment => {
+      if(enrollments.indexOf(enrollment) == -1) {
+        return i;
+      }
+      i++;
+    });
+    return enrollments[enrollments.length - 1].id + 1;
+  }
 }
