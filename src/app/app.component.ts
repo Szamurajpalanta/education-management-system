@@ -54,12 +54,13 @@ export class AppComponent {
 
   async createUser() {
     this.statusMessage = '';
-    const account = this.userForm.value;
-    console.log(account);
+    let input = this.userForm.value;
+    input.password = '' + this.cyrb53(input.password);
+    console.log(input);
     this.showStatusMessage = true;
 
     try {
-      const insertedAccount = await this.accountService.createAccount(account);
+      const insertedAccount = await this.accountService.createAccount(input);
       this.success = true;
       this.statusMessage = 'Űj felhasználó jött létre a következő felhasználónévvel: ' + insertedAccount.user;
       this.toggleRegistration();
