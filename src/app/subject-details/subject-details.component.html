@@ -1,3 +1,7 @@
+<div class="alert p-1 m-1" [ngClass]="{'alert-success' : success, 'alert-danger' : !success}"  role="alert" *ngIf="showStatusMessage">
+  {{ statusMessage }}
+</div>
+
 <div class="float-container">
   <div class="row">
     <div class="col-md">
@@ -17,29 +21,33 @@
       <tr *ngFor="let course of subjectCourses">
         <td>{{course.teacher.name}}</td>
         <td>{{course.time}}</td>
-        <!--
-        <td *ngIf="!isEditingEnrollment">{{enrollment.mark}}</td>
-        <td *ngIf="isEditingEnrollment">
-        <input type="number" min="1" max="5" value="{{enrollment.mark}}" class="form-control" [(ngModel)]="tempMark" placeholder="Keresés hallgató neve szerint">
-        </td>
         <td>
-          <button type="button" class="btn btn-primary m-1" *ngIf="!isEditingEnrollment && !isDeletingEnrollment" (click)="toggleEditEnrollmentMode()">Értékelés módosítása</button>
-          <button type="button" class="btn btn-danger m-1" *ngIf="!isEditingEnrollment && !isDeletingEnrollment" (click)="toggleDeleteEnrollmentMode()">Törlés</button>
-          <button type="button" class="btn btn-success m-1" *ngIf="isEditingEnrollment" (click)="updateEnrollment(enrollment)">Mentés</button>
-          <button type="button" class="btn btn-danger m-1" *ngIf="isEditingEnrollment" (click)="toggleEditEnrollmentMode()">Mégse</button>
-          <div class="row" *ngIf="isDeletingEnrollment">
+          <button type="button" class="btn btn-danger m-1" *ngIf="!isDeletingCourse" (click)="toggleDeleteCourseMode()">Törlés</button>
+          <div class="row" *ngIf="isDeletingCourse">
             <div class="col-md-2">
               Biztos?
             </div>
             <div class="col-md">
-              <button type="button" class="btn btn-danger m-1" (click)="deleteEnrollment(enrollment)">Törlés</button>
-              <button type="button" class="btn btn-primary m-1" (click)="toggleDeleteEnrollmentMode()">Mégse</button>
+              <button type="button" class="btn btn-danger m-1" (click)="deleteCourse(course)">Törlés</button>
+              <button type="button" class="btn btn-primary m-1" (click)="toggleDeleteCourseMode()">Mégse</button>
             </div>
           </div>
         </td>
-        -->
       </tr>
     </tbody>
   </table>
 </div>
 
+<div class="row">
+  <div class="col-md-7">
+    <select class="form-select" id="teacher" name="teacher" [(ngModel)]="selectedTeacher">
+      <option *ngFor="let teacher of teachers" [ngValue]="teacher">{{teacher.name}}</option>
+    </select>
+  </div>
+  <div class="col-md-1">
+    <input type="text" value="" class="form-control" placeholder="HH:MM" [(ngModel)]="tempTime">
+  </div>
+  <div class="col-md">
+    <button type="button" class="btn btn-success" (click)="createCourse()">Kurzus létrehozása</button>
+  </div>
+</div>

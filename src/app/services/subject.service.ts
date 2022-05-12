@@ -10,6 +10,10 @@ export class SubjectService {
 
   constructor(private http: HttpClient) { }
 
+  getSubject(id: number) {
+    return lastValueFrom(this.http.get<Subject[]>(`http://localhost:3000/api/subjects/${id}`));
+  }
+
   getSubjects() {
     return lastValueFrom(this.http.get<Subject[]>('http://localhost:3000/api/subjects'));
   }
@@ -32,5 +36,16 @@ export class SubjectService {
 
   deleteSubject(id: number) {
     return lastValueFrom(this.http.delete<Subject>(`http://localhost:3000/api/subjects/${id}`));
+  }
+
+  getLowestAvailableId(subjects: Subject[]): number {
+    let i = 0;
+    subjects.forEach(subject => {
+      if(subjects.indexOf(subject) == -1) {
+        return i;
+      }
+      i++;
+    });
+    return subjects[subjects.length - 1].id + 1;
   }
 }

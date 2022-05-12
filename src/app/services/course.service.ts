@@ -33,4 +33,15 @@ export class CourseService {
   deleteCourse(id: number) {
     return lastValueFrom(this.http.delete<Course>(`http://localhost:3000/api/courses/${id}`));
   }
+
+  getLowestAvailableId(courses: Course[]): number {
+    let i = 0;
+    courses.forEach(course => {
+      if(courses.indexOf(course) == -1) {
+        return i;
+      }
+      i++;
+    });
+    return courses[courses.length - 1].id + 1;
+  }
 }
