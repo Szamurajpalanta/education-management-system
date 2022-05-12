@@ -75,18 +75,16 @@
     </tbody>
   </table>
 
-<form [formGroup]="newCourseForm">
-  <div class="row">
-    <div class="col-md-8">
-      <select class="form-select" id="subjectName" name="subjectName" formControlName="subjectName">
-        <option *ngFor="let subject of subjects" value="{{subject.name}}">{{subject.name}}</option>
-      </select>
-    </div>
-    <div class="col-md-1">
-      <input type="text" value="" class="form-control" formControlName="time" placeholder="HH:MM">
-    </div>
-    <div class="col-md">
-      <button type="button" class="btn btn-success m-1" (click)="createCourse()">Kurzus létrehozása</button>
-    </div>
+<div class="row">
+  <div class="col-md-8">
+    <select class="form-select" id="subject" name="subject" [(ngModel)]="selectedSubject">
+      <option *ngFor="let subject of subjects" [ngValue]="subject">{{subject.name}}</option>
+    </select>
   </div>
-</form> 
+  <div class="col-md-1">
+    <input type="text" value="" class="form-control" placeholder="HH:MM" [(ngModel)]="tempTime">
+  </div>
+  <div class="col-md">
+    <button type="button" class="btn btn-success m-1" (click)="createCourse()">Kurzus létrehozása</button>
+  </div>
+</div>

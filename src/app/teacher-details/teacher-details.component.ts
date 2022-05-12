@@ -18,6 +18,7 @@ export class TeacherDetailsComponent implements OnInit {
   courses: Course[] = [];
   teacherCourses: Course[] = [];
   subjects: Subject[] = [];
+  selectedSubject!: Subject;
   isEditingTeacher: boolean = false;
   isEditingCourse: boolean = false;
   isDeletingTeacher: boolean = false;
@@ -28,10 +29,6 @@ export class TeacherDetailsComponent implements OnInit {
   editTeacherForm!: FormGroup;
   newCourseForm!: FormGroup;
   tempTime: string = '';
-  courseSkeleton = {
-    subjectName: '',
-    time: ''
-  }
   newCourse: Course = {
     id: 0,
     time: '',
@@ -67,11 +64,6 @@ export class TeacherDetailsComponent implements OnInit {
       id: [this.teacher.id],
       name: [this.teacher.name, [Validators.required]],
       department: [this.teacher.department, [Validators.required]],
-    });
-
-    this.newCourseForm = this.formBuilder.group({
-      subjectName: ['', [Validators.required]],
-      time: ['', [Validators.required]],
     });
   }
 
@@ -217,19 +209,39 @@ export class TeacherDetailsComponent implements OnInit {
 
   async createCourse() {
     let index = 0;
-    this.courseSkeleton = this.newCourseForm.value;
     this.newCourse.teacher = this.teacher;
-    this.subjects.forEach(subject => {
-      console.log(subject.name + " = " + this.courseSkeleton.subjectName)
-      if (subject.name === this.courseSkeleton.subjectName) {
-        this.newCourse.subject = subject;
+    this.newCourse.subject = this.selectedSubject;
+    this.newCourse.time = this.tempTime;
+    this.showStatusMessage = true;
+
+    console.log(this.newCourse);
+
+    try {
+      if (!this.checkTimeConflict(this.newCourse.time)) {
+        await this.courseService.createCourse(this.newCourse);
+        this.getCourses();
+        this.getTeacherCourses();
+        this.statusMessage = 'Az új kurzus sikeresen létrejött.';
+        this.success = true;
+      } else {
+        this.statusMessage = 'A jelenlegi oktatónak már van egy kurzusa a megadott időpontban.';
+        this.success = false;
+      }
+      
+    } catch (err: any) {
+      this.statusMessage = err.error.message;
+      this.success = false;
+    }   
+  }
+
+  checkTimeConflict(time: String): boolean {
+    let conflict = false;
+    this.teacherCourses.forEach(course => {
+      if (course.time === time) {
+        conflict = true;
       }
     });
-    this.newCourse.time = this.courseSkeleton.time;
-
-    console.log(this.courseSkeleton.subjectName);
-    console.log(this.courseSkeleton.time);
-    console.log(this.newCourse);
+    return conflict;
   }
 
 }
